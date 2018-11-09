@@ -307,10 +307,18 @@ config("dynamic_crt") {
 config("static_crt") {
   if (is_debug) {
     cflags = [ "/MTd" ]
+    # defines = [ "_ITERATOR_DEBUG_LEVEL=2" ]  # this is pretty subjective. Trying it out to appease Skia.
   } else {
     cflags = [ "/MT" ]
   }
 }
+
+config("static_release_crt") {
+  # Use MT even in debug
+  # WARNING: use at your own risk. I'm not convinced this achieves the desired outcome.
+  cflags = [ "/MT" ]
+}
+
 
 # Subsystem --------------------------------------------------------------------
 
