@@ -249,6 +249,10 @@ config("static_crt") {
   }
 }
 
+config("static_release_crt") {
+  cflags = [ "/MT" ]
+}
+
 # Subsystem --------------------------------------------------------------------
 
 # This is appended to the subsystem to specify a minimum version.
