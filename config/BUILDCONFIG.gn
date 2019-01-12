@@ -409,3 +409,29 @@ set_defaults("shared_library") {
 set_defaults("loadable_module") {
   configs = default_shared_library_configs
 }
+
+# TODO: move to sensible location
+template("internal_lib") {
+  config(target_name + "_config") {
+    include_dirs = invoker.public_include_dirs
+    if (defined(invoker.public_defines)) {
+      defines = invoker.public_defines
+    }
+  }
+  source_set(target_name) {
+    forward_variables_from(invoker, "*", [ "public_include_dirs" ])
+    if (!defined(public_configs)) {
+      public_configs = []
+    }
+    public_configs += [
+      ":" + target_name + "_config",
+      # ":skia_private",
+    ]
+
+    if (!defined(deps)) {
+      deps = []
+    }
+    # deps += [ ":skia" ]
+    # testonly = true
+  }
+}
